@@ -12,6 +12,7 @@
         create: function() {
             console.log('Hit game prototype');
             this.game.physics.startSystem(Phaser.Physics.ARCADE);
+            //this.game.add.image(0, 0, 'background');
 
             this.player = new Player(this.game);
             this.player.create();
