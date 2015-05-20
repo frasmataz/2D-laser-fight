@@ -12,9 +12,9 @@
         preload: function() {
             console.log('Preloading..');
             this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
-            this.game.load.image('player', 'assets/ship.png');
-            this.game.load.image('background', 'assets/background.jpg');
-            this.game.load.image('bullet1', 'assets/bullet1.png');
+            this.game.load.image('player', 'assets/ship2.png');
+            this.game.load.image('background', 'assets/blurred-background-20.jpg');
+            this.game.load.image('bullet1', 'assets/bullet2.png');
         },
 
         update: function() {

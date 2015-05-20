@@ -5,6 +5,7 @@
 
 function Player(game) {
     this.alive = true;
+    this.health;
     this.game = game;
     this.speed = 0;
     this.velocity = new Phaser.Point(0, 0);
@@ -21,12 +22,13 @@ Player.prototype = {
         this.sprite = this.game.add.sprite(20, 20, 'player');
         this.sprite.anchor.setTo(0.5, 0.5);
         this.game.physics.arcade.enable(this.sprite);
-        this.sprite.body.setSize(150,120,0,0);
         this.sprite.scale.set(this.scale);
-        this.weapon = new Weapon.SingleBullet(this.game);
+        this.weapon = new SingleBulletGun(this.game);
 
+        this.health = 100;
         this.sprite.body.collideWorldBounds = true;
         this.game.camera.follow(this.sprite);
+        //this.sprite.body.collides(Bullet, this.damage, this);
     },
     update: function(mouse) {
         // this.game.physics.arcade.collide(this.sprite,this.sprite2);
@@ -37,7 +39,8 @@ Player.prototype = {
             return;
         }
         var velocity = new Phaser.Point(0, 0);
-        if (this.game.input.keyboard.isDown(Phaser.Keyboard.A) && this.velocity.x > -this.maxSpeed)
+        if (this.game.input.keyboard.isDown(Phaser.Keyboard.A ||
+            this.game.input) && this.velocity.x > -this.maxSpeed)
             this.velocity.x -= this.accel;
         else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D) && this.velocity.x < this.maxSpeed)
             this.velocity.x += this.accel;
@@ -60,12 +63,25 @@ Player.prototype = {
         this.sprite.body.velocity = this.velocity;
 
         if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
-        {
             this.weapon.fire(this);
-        }
 
         var newAngle = Math.atan2(this.sprite.body.y + (this.sprite.body.width/2) - mouse.y, this.sprite.body.x + (this.sprite.body.height/2) - mouse.x) * 180 / Math.PI - 90;
 
         this.sprite.angle = newAngle;
+    },
+    damage: function(player,bullet) {
+        this.health -= 10;
+        bullet.kill();
+        console.log("hit me, health " + this.health);
+        if (this.health <= 0)
+            this.die();
+    },
+    die: function(bullet,player) {
+        this.alive = false;
+        this.sprite.kill();
+    },
+
+    fire: function(source) {
+
     }
 };
