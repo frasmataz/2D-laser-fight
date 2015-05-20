@@ -14,7 +14,7 @@ Bullet.prototype.resetProperties = function(x,y,weapon,angle) {
     this.loadTexture('bullet1');
     this.scale.set(0.5);
     this.anchor.setTo(0.5);
-    this.damage = 10;
+    this.damage = weapon.damage;
     this.angle = angle;
     this.reset(x,y);
     this.game.physics.arcade.enable(this);
@@ -23,12 +23,12 @@ Bullet.prototype.resetProperties = function(x,y,weapon,angle) {
 
 function SingleBulletGun (game) {
     this.game = game;
-    this.bulletSpeed=2000;
+    this.bulletSpeed=200;
     this.nextFire = 0;
-    this.fireRate = 100;
-    this.damage = 10;
+    this.fireRate = 20;
+    this.damage = 3;
     this.speed=10;
-    this.distanceFromPlayer = 50;
+    this.distanceFromPlayer = 60;
 }
 
 SingleBulletGun.prototype = {

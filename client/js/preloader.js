@@ -15,6 +15,7 @@
             this.game.load.image('player', 'assets/ship2.png');
             this.game.load.image('background', 'assets/blurred-background-20.jpg');
             this.game.load.image('bullet1', 'assets/bullet2.png');
+            this.game.load.image('dead', 'assets/dead.png');
         },
 
         update: function() {
