@@ -24,7 +24,7 @@ Player.prototype = {
     create: function() {
         console.log('Spawned player');
         this.state = 'alive';
-        this.sprite = this.game.add.sprite(20, 20, 'player');
+        this.sprite = this.game.add.sprite(Math.floor((Math.random() * 1100) + 1), Math.floor((Math.random() * 600) + 1), 'player');
         this.sprite.anchor.setTo(0.5);
         this.sprite.scale.set(this.scale);
         this.game.physics.arcade.enable(this.sprite);

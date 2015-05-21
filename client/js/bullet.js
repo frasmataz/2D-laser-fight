@@ -23,11 +23,11 @@ Bullet.prototype.resetProperties = function(x,y,weapon,angle) {
 
 function SingleBulletGun (game) {
     this.game = game;
-    this.bulletSpeed=200;
+    this.bulletSpeed=2000;
     this.nextFire = 0;
-    this.fireRate = 20;
+    this.fireRate = 10;
     this.damage = 3;
-    this.speed=10;
+    this.speed=100;
     this.distanceFromPlayer = 60;
 }
 
@@ -40,7 +40,15 @@ SingleBulletGun.prototype = {
         var bulletx = (Math.cos(angle * Math.PI / 180.0) * this.distanceFromPlayer) + source.sprite.x;
         var bullety = (Math.sin(angle * Math.PI / 180.0) * this.distanceFromPlayer) + source.sprite.y;
 
-        var bullet=new Bullet(this.game,bulletx,bullety,this,angle);
+        var bullet = this.game.state.callbackContext.bullets.getFirstExists(false);
+
+        if (bullet != null) {
+            bullet.resetProperties(bulletx,bullety,this,angle);
+        }else{
+            bullet = new Bullet(this.game, bulletx, bullety, this, angle);
+        }
+
+        console.log(this.game.state.callbackContext.bullets.length + " bullets in existance");
         this.nextFire = this.game.time.time + this.fireRate;
     }
 };
