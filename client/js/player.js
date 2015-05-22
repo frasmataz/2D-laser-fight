@@ -6,6 +6,7 @@
 function Player(game) {
     this.state;
     this.health;
+    this.emitter;
     this.game = game;
     this.speed = 0;
     this.velocity = new Phaser.Point(0, 0);
@@ -76,6 +77,13 @@ Player.prototype = {
     damage: function(player,bullet) {
         this.health -= bullet.damage;
         bullet.kill();
+        this.emitter = this.game.add.emitter(this.sprite.body.x+(this.sprite.width/2), this.sprite.body.y+(this.sprite.height/2));
+        this.emitter.makeParticles('spark', 1, 10, true, true);
+        this.emitter.setXSpeed(-300,300);
+        this.emitter.setYSpeed(-300,300);
+        this.emitter.setScale(1,3,1,3);
+        this.emitter.gravity=0;
+        this.emitter.explode(200,10);
         console.log("hit me, health " + this.health);
         if (this.health <= 0)
             this.die();

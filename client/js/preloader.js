@@ -16,6 +16,8 @@
             this.game.load.image('background', 'assets/blurred-background-20.jpg');
             this.game.load.image('bullet1', 'assets/bullet2.png');
             this.game.load.image('dead', 'assets/dead.png');
+            this.game.load.image('spark', 'assets/spark.png');
+            this.game.load.image('colin', 'assets/Colin_Mochrie.jpg');
         },
 
         update: function() {
