@@ -3,10 +3,11 @@
  */
 'use strict';
 
-function Player(game) {
+function Player(game, name, isPlayer) {
     this.state;
     this.health;
     this.emitter;
+    this.isPlayer = isPlayer;
     this.game = game;
     this.speed = 0;
     this.velocity = new Phaser.Point(0, 0);
@@ -18,6 +19,8 @@ function Player(game) {
     this.deathTime = 0;
     this.clearTime = 500;
     this.respawnTime = 1200;
+    this.name = name;
+    this.nameText;
 }
 
 Player.prototype = {
@@ -25,7 +28,8 @@ Player.prototype = {
     create: function() {
         console.log('Spawned player');
         this.state = 'alive';
-        this.sprite = this.game.add.sprite(Math.floor((Math.random() * 1100) + 1), Math.floor((Math.random() * 600) + 1), 'player');
+        this.sprite = this.game.add.sprite(Math.floor((Math.random() * this.game.world.width) + 1),
+            Math.floor((Math.random() * this.game.world.height) + 1), 'player');
         this.sprite.anchor.setTo(0.5);
         this.sprite.scale.set(this.scale);
         this.game.physics.arcade.enable(this.sprite);
@@ -33,11 +37,27 @@ Player.prototype = {
 
         this.health = 100;
         this.sprite.body.collideWorldBounds = true;
-        this.game.camera.follow(this.sprite);
+        if(this.isPlayer)
+            this.game.camera.follow(this.sprite);
+
+        this.nameText = this.game.add.text(
+            this.sprite.body.x,
+            this.sprite.body.y,
+            this.name,
+            {
+                font: "bold 10pt Sans",
+                fill: "#FFF",
+                align: "center"
+            }
+        );
+
+        this.nameText.shadowBlur = 1;
+        this.nameText.shadowColor = "black";
+        this.nameText.anchor.setTo(0.5,0.5);
     },
     update: function(mouse) {
 
-        if (this.state == 'alive') {
+        if (this.isPlayer && this.state == 'alive') {
 
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.A ||
                     this.game.input) && this.velocity.x > -this.maxSpeed)
@@ -63,7 +83,7 @@ Player.prototype = {
             if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) || this.game.input.activePointer.isDown)
                 this.weapon.fire(this);
 
-            this.sprite.angle = Math.atan2(this.sprite.body.y + (this.sprite.body.width / 2) - mouse.y, this.sprite.body.x + (this.sprite.body.height / 2) - mouse.x) * 180 / Math.PI - 90;
+            this.sprite.angle = Math.atan2(this.sprite.body.y + (this.sprite.body.width / 2) - this.game.input.worldY, this.sprite.body.x + (this.sprite.body.height / 2) - this.game.input.worldX) * 180 / Math.PI - 90;
         }
         else if (this.state == 'dead') {
             if ((this.game.time.time - this.deathTime) > this.clearTime)
@@ -73,6 +93,8 @@ Player.prototype = {
             if ((this.game.time.time - this.deathTime) > this.respawnTime)
                 this.spawn();
         }
+
+        this.nameText.position.setTo(this.sprite.position.x, this.sprite.position.y+40);
     },
     damage: function(player,bullet) {
         this.health -= bullet.damage;
@@ -104,6 +126,7 @@ Player.prototype = {
         this.sprite.visible = false;
         //this.kill();
         this.state = 'cleared';
+        this.nameText.kill();
     },
 
     spawn: function() {

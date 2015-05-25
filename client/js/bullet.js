@@ -23,11 +23,10 @@ Bullet.prototype.resetProperties = function(x,y,weapon,angle) {
 
 function SingleBulletGun (game) {
     this.game = game;
-    this.bulletSpeed=2000;
+    this.bulletSpeed=1500;
     this.nextFire = 0;
-    this.fireRate = 10;
-    this.damage = 3;
-    this.speed=100;
+    this.fireRate = 150;
+    this.damage = 30;
     this.distanceFromPlayer = 60;
 }
 

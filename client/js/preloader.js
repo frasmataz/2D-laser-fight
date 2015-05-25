@@ -13,7 +13,7 @@
             console.log('Preloading..');
             this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
             this.game.load.image('player', 'assets/ship2.png');
-            this.game.load.image('background', 'assets/blurred-background-20.jpg');
+            this.game.load.image('background', 'assets/debug-grid-1920x1920.png');
             this.game.load.image('bullet1', 'assets/bullet2.png');
             this.game.load.image('dead', 'assets/dead.png');
             this.game.load.image('spark', 'assets/spark.png');
