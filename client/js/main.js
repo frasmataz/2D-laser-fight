@@ -15,4 +15,13 @@ window.onload = function() {
 
     console.log('Supposedly about to boot');
     game.state.start('boot');
+
+    game.message = function(message) {
+        var node = document.createElement("LI");
+        node.innerHTML = message;
+        messageList.appendChild(node);
+
+        var objDiv = document.getElementById("messageBox");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    };
 };

@@ -20,6 +20,7 @@ function Player(game, name, isPlayer) {
     this.clearTime = 500;
     this.respawnTime = 1200;
     this.name = name;
+    this.points = 0;
     this.nameText;
 }
 
@@ -55,7 +56,7 @@ Player.prototype = {
         this.nameText.shadowColor = "black";
         this.nameText.anchor.setTo(0.5,0.5);
     },
-    update: function(mouse) {
+    update: function() {
 
         if (this.isPlayer && this.state == 'alive') {
 
@@ -108,7 +109,7 @@ Player.prototype = {
         this.emitter.explode(200,10);
         console.log("hit me, health " + this.health);
         if (this.health <= 0)
-            this.die();
+            this.die(bullet, player);
         else
             this.sprite.tint = RGBtoHEX(255, (this.health/100 * 255), (this.health/100) * 255);
     },
@@ -119,6 +120,9 @@ Player.prototype = {
         this.velocity.set(0, 0);
         this.sprite.angle = 0;
         this.deathTime = this.game.time.time;
+
+        bullet.owner.addPoint();
+        this.game.message(bullet.owner.name + " killed " + this.name);
     },
 
     clear: function() {
@@ -132,5 +136,9 @@ Player.prototype = {
     spawn: function() {
         console.log('Spawning');
         this.create();
+    },
+
+    addPoint: function() {
+        this.points++;
     }
 };

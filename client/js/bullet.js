@@ -1,9 +1,10 @@
-Bullet = function (game,x,y,weapon,angle) {
+Bullet = function (game,x,y,weapon,angle,owner) {
     Phaser.Sprite.call(this, game, x, y);
     this.checkWorldBounds=true;
     this.outOfBoundsKill=true;
     this.alive = true;
     this.game.state.callbackContext.bullets.add(this);
+    this.owner = owner;
 
     this.resetProperties(x,y,weapon,angle);
 };
@@ -44,7 +45,7 @@ SingleBulletGun.prototype = {
         if (bullet != null) {
             bullet.resetProperties(bulletx,bullety,this,angle);
         }else{
-            bullet = new Bullet(this.game, bulletx, bullety, this, angle);
+            bullet = new Bullet(this.game, bulletx, bullety, this, angle, source);
         }
 
         console.log(this.game.state.callbackContext.bullets.length + " bullets in existance");
